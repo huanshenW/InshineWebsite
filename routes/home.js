@@ -5,13 +5,7 @@ var middleware = require("../middleware/");
 
 // INDEX - show all campgrounds
 router.get("/", function(req, res){
-    Campground.find({}, function(err, campgrounds){
-       if (err){
-           console.log("Can't find campgrounds from the DB.");
-       } else{
-           res.render("campgrounds/index", {campgrounds:campgrounds});
-       }
-    });
+    res.render("home/index");
 });
 
 // ADD add one new campground logic

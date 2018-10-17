@@ -8,20 +8,28 @@ router.get("/", function(req, res){
    res.render("landing"); 
 });
 
+// Home route
+router.get("/home", function(req, res){
+    res.render("home");
+});
+
+
 // ===============
 // AUTH ROUTES
 // ===============
 
 // show register form
 router.get("/register", function(req, res){
-    res.render("register");    
+    res.render("register");  
 });
 
 // handling sign up logic
 router.post("/register", function(req, res){
     // create a new user object
     var newUser = new User({username: req.body.username});
-    
+    if (req.body.secretcode === "axjy#1238#") {
+        newUser.isAdmin = true;
+    }
     // pass the info to model user and use passport-local-mongoose to handle the registration.
     User.register(newUser, req.body.password, function(err, user){
         if (err){
@@ -30,7 +38,7 @@ router.post("/register", function(req, res){
         }
         passport.authenticate("local")(req, res, function(){
             req.flash("success", "Welcome to YelpCamp " + user.username);
-            res.redirect("/campgrounds"); 
+            res.redirect("/home"); 
         });
     });
 });
@@ -43,7 +51,7 @@ router.get("/login", function(req, res){
 // handling login logic
 router.post("/login", passport.authenticate("local", 
     {
-        successRedirect: "/campgrounds",
+        successRedirect: "/home",
         failureRedirect: "/login"
     }), function(req, res){
 });
@@ -52,7 +60,7 @@ router.post("/login", passport.authenticate("local",
 router.get("/logout", function(req, res) {
    req.logout();
    req.flash("success", "You have successfully logged out");
-   res.redirect("/campgrounds");
+   res.redirect("/home");
 });
 
 
