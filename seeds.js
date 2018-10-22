@@ -1,68 +1,75 @@
 var mongoose    = require("mongoose");
-var Campground  = require("./models/campground");
-var Comment     = require("./models/comment");
-var data = [
-    {
-        name: "Woman and A Dog",
-        image: "https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5cedc6b95f731395da7269d2341f9a5e&auto=format&fit=crop&w=500&q=60",
-        description: "Woman and a dog inside outside tent near body of water"
-    },
-    {
-        name: "Blue Tent under Milkyway",
-        image: "https://images.unsplash.com/photo-1517824806704-9040b037703b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d95171e276fbd03de651f9aecb64b53d&auto=format&fit=crop&w=500&q=60",
-        description: "A blue tent under the amazing and beautiful milkyway"
-    },
-    {
-        name: "tents Outside",
-        image: "https://images.unsplash.com/photo-1528433556524-74e7e3bfa599?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a4479c0b22e5c8a8ed5577c39f63b27b&auto=format&fit=crop&w=500&q=60",
-        description: "Blue and white tents outside under blue sky"
-    },
-    {
-        name: "Smoke and Hills",
-        image: "https://images.unsplash.com/photo-1520632461690-67205b04e73d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3f5441c45df9e0a481186d60cf5db545&auto=format&fit=crop&w=500&q=60",
-        description: "Group of people making smoke during daytime"
-    }
-]
+var Student  = require("./models/student");
+var User = require("./models/user");
+var Event = require("./models/event");
+var Activity = require("./models/activity");
+var faker = require("faker");
+var numData = 5;
+var data = [];
 
 function seedDB(){
-    //Remove all campgrounds
-    Campground.deleteMany({}, function(err){
-        if (err){
+
+    User.findOne({"username":"visitor"}, function(err, foundUser){
+        if (err) {
             console.log(err);
-        }
-        console.log("remove campgrounds!");
-        Comment.deleteMany({}, function(err) {
-            if(err){
-                console.log(err);
+
+        } else {
+            for (var i = 0; i < numData; i++) {
+                var ran1= faker.random.number();
+                var g;
+                if (ran1 % 2 == 0) {
+                    g = "Male";
+                } else {
+                    g = "Female";
+                }
+                var username = faker.name.firstName() + String(i);
+                var object = {
+                    name: username,
+                    gender: g,
+                    age: 7 + faker.random.number() % 4,
+                    classNumber: faker.random.number() % 1000,
+                    contact1: faker.name.findName(),
+                    phone1: faker.phone.phoneNumberFormat(),
+                    contact2: faker.name.findName(),
+                    phone2: faker.phone.phoneNumberFormat(),
+                    isNoonCare: String(faker.random.boolean()),
+                    isAfternoonCare: String(faker.random.boolean()),
+                    timeEnrolled: faker.date.recent(),
+                    note: faker.lorem.sentences(),
+                    user: {
+                            id: foundUser._id,
+                            username: "visitor"
+                        }
+                };
+                data.push(object);
             }
-            console.log("removed comments!");
-            
-            //add a few campgrounds
-            data.forEach(function(seed){
-                Campground.create(seed, function(err, campground){
-                    if(err){
-                        console.log(err)
-                    } else {
-                        console.log("added a campground");
-                        //create a comment
-                        Comment.create(
-                            {
-                                text: "This place is great, but I wish there was internet",
-                                author: "Homer"
-                            }, function(err, comment){
+
+            //Remove all students
+            Student.deleteMany({}, function(err){
+                if (err){
+                    console.log(err);
+                }
+                console.log("Remove all students");
+                Event.deleteMany({}, function(err){
+                    console.log("Remove all events!");                    
+                    Activity.deleteMany({}, function(err){
+                        console.log("Remove all activitys");            
+                        //add a few campgrounds
+                        data.forEach(function(seed){
+                            Student.create(seed, function(err, student){
                                 if(err){
                                     console.log(err);
                                 } else {
-                                    campground.comments.push(comment);
-                                    campground.save();
-                                    console.log("Created new comment");
+                                    student.save();
                                 }
                             });
-                    }
+                        });
+                        console.log("Successfully added all students");                           
+                    });
                 });
             });
-        });
-    }); 
+        }
+    });
 }
 
 module.exports = seedDB;

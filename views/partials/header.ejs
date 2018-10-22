@@ -10,10 +10,10 @@
         <title>Inshine Education</title>
         
         <!-- Bootstrap core CSS -->
-        <link href="vendor.1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/vendor.1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         
         <!-- Custom styles for this template -->
-        <link href="css/small-business.css" rel="stylesheet">
+        <link href="/css/small-business.css" rel="stylesheet">
         
         <!-- Font awesome-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -48,7 +48,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">Logout</a>
                             </li>
-                            <% if (currentUser.isAdmin) { %>
+                            <% if (currentUser.isAdmin || true) { %>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/manage/">Manage</a>
                                 </li>

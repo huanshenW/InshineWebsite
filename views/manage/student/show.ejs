@@ -1,0 +1,41 @@
+<% include ../../partials/manageHeader %>
+
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"><%=student.name%>'s Profile</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <ul>
+                <li>Name:<%=student.name%></li>
+                <li>Gender:<%=student.gender%></li>
+                <li>Age:<%=student.age%></li>
+                <li>Class Number:<%=student.classNumber%></li>
+                <li>Primary Contact Person:<%=student.contact1%></li>
+                <li>Phone Number:<%=student.phone1%></li>  
+                <li>Secondary Contact Person:<%=student.contact2%></li>
+                <li>Phone Number:<%=student.phone2%></li>
+                <li>Noon Care:<%=student.isNoonCare%></li>
+                <li>Afternoon Care:<%=student.isAfternoonCare%></li>
+                <li>Notes:<%=student.note%></li>
+                <% student.footprint.forEach(function(activity){ %>
+                    <% console.log(activity) %>
+                    <h1><%=activity.eventType%></h1>
+                    <h1><%=activity.time%></h1>
+                    <h1><%=activity.operator%></h1>
+                    <h1><%=activity.comment%></h1>
+                    <h1><%=activity.supervisor%></h1>
+                <% }); %>
+                <form style="display: inline" action="/manage/student/<%= student._id %>/edit" method="GET">
+                    <button class="btn btn-xs btn-warning">Edit</button>                                                    
+                </form>
+            </ul> 
+            <a href="javascript:history.back()">Go Back</a>
+        </div>
+        <!-- /#page-wrapper -->
+
+
+<% include ../../partials/manageFooter %>

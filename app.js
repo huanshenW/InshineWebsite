@@ -28,7 +28,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-// seedDB(); //seed the database
+
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -57,3 +57,5 @@ app.use("/manage", manageRoutes);
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("The YelpCamp Server Has Started.");
 });
+
+seedDB(); //seed the database
