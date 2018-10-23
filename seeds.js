@@ -4,8 +4,9 @@ var User = require("./models/user");
 var Event = require("./models/event");
 var Activity = require("./models/activity");
 var faker = require("faker");
-var numData = 5;
+var numData = 15;
 var data = [];
+var moment = require("moment-timezone");
 
 function seedDB(){
 
@@ -22,6 +23,19 @@ function seedDB(){
                 } else {
                     g = "Female";
                 }
+                var ran1 = String(faker.random.boolean());
+                if (ran1 == "true") {
+                    ran1 = "Enrolled";
+                } else {
+                    ran1 = "-";
+                }
+                
+                var ran2 = String(faker.random.boolean());
+                if (ran2 == "true") {
+                    ran2 = "Enrolled";
+                } else {
+                    ran2 = "-";
+                }
                 var username = faker.name.firstName() + String(i);
                 var object = {
                     name: username,
@@ -32,9 +46,9 @@ function seedDB(){
                     phone1: faker.phone.phoneNumberFormat(),
                     contact2: faker.name.findName(),
                     phone2: faker.phone.phoneNumberFormat(),
-                    isNoonCare: String(faker.random.boolean()),
-                    isAfternoonCare: String(faker.random.boolean()),
-                    timeEnrolled: faker.date.recent(),
+                    isNoonCare: ran1,
+                    isAfternoonCare: ran2,
+                    timeEnrolled: moment(faker.date.past()).tz("Asia/Shanghai").format("YYYY-MM-DD ddd h:mm:ss a"),
                     note: faker.lorem.sentences(),
                     user: {
                             id: foundUser._id,

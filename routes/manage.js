@@ -4,6 +4,9 @@ var Student = require("../models/student");
 var User = require("../models/user");
 var Event = require("../models/event");
 var Activity = require("../models/activity");
+var moment = require("moment-timezone");
+var mongoose = require("mongoose");
+mongoose.Promise = require("bluebird");
 var middleware = require("../middleware/");
 var async = require("async");
 
@@ -75,14 +78,24 @@ router.get("/student/:student_id/edit", function(req, res){
             req.flash("error", "Student not found!");
             res.redirect("back");
         } else {
-            console.log(req.headers.referer);
             res.render("manage/student/edit", {student: foundStudent});
         }
     });
 });
 
 router.put("/student/:student_id", function(req, res){
-    console.log("you hit the put route");
+    var isNoonCare = "";
+    if (req.body.student.isNoonCare=="on"){
+        isNoonCare = "Enrolled";
+    } else {
+        isNoonCare = "-";
+    }
+    var isAfternoonCare = "";
+    if (req.body.student.isAfternoonCare=="on"){
+        isAfternoonCare = "Enrolled";
+    } else {
+        isAfternoonCare = "-";
+    }
     Student.findByIdAndUpdate(req.params.student_id, 
     {
         "$set": { 
@@ -94,19 +107,16 @@ router.put("/student/:student_id", function(req, res){
             "phone1": req.body.student.phone1,
             "contact2": req.body.student.contact2,
             "pheon2": req.body.student.phone2,
-            "isNoonCare": req.body.student.isNoonCare,
-            "isAfternoonCare": req.body.student.isAfternoonCare,
+            "isNoonCare": isNoonCare,
+            "isAfternoonCare": isAfternoonCare,
             "note": req.body.student.note
         }
     }
     ,
     function(err, updatedStudent){
         if (err) {
-            console.log("update pass");
             req.flash("error", "Update failure");
         } else {
-            console.log(updatedStudent._id);
-            console.log(req.params.student_id);
             res.redirect("/manage/student/" + req.params.student_id);
         }
     }) 
@@ -136,7 +146,7 @@ router.get("/note/clockin", function(req, res){
 // Process the ClockingType and render the specific workspace
 router.post("/note/clockin", function(req, res){
     var checkType = String(req.body.clockinType);
-    Student.find({[checkType]: "true"}, function(err, foundStudents){
+    Student.find({[checkType]: "Enrolled"}, function(err, foundStudents){
         if (err) {
             req.flash("error", "No students are founded");
             res.redirect("back");
@@ -155,28 +165,47 @@ router.post("/note/clockin", function(req, res){
 // Receive clockingIn results and create events
 router.post("/note/clockin/result", function(req, res){
     var num = req.body.students.clickTime.length;
+    var queries = [];
+    
     for (var i = 0; i < num; i++) {
-        (function(i){
-            Student.findById(req.body.students.id[i], function(err, foundStudent){
-                if (err) {
-                    req.flash("error", err.message);
-                    res.redirect("back");
-                } else {
-                    var event = {};
-                    event.student = {};
-                    event.student.name = foundStudent.name;
-                    event.student.id = foundStudent._id;
-                    event.time = req.body.students.clickTime[i];       
-                    event.eventType = req.body.students.eventType;
-                    event.operator = req.body.students.operator;
-                    Event.create(event, function(err, newEvent){
-                        newEvent.save();
-                    });
-                }
-            });            
-        })(i);
-    }
-    res.redirect("/manage/note/event");
+        queries.push(function(i){
+            return new Promise((resolve, reject) =>{
+                Student.findById(req.body.students.id[i], function(err, foundStudent){
+                    if (err) {
+                        reject();
+                        // req.flash("error", err.message);
+                        // res.redirect("back");
+                    } else {
+                        var event = {};
+                        event.student = {};
+                        event.student.name = foundStudent.name;
+                        event.student.id = foundStudent._id;
+                        // --------- Moment.js formatting ------------
+                        var str = req.body.students.clickTime[i];
+                        var ans = "";
+                        if (!(str == "Absent")) {
+                            ans = moment(str).tz("Asia/Shanghai").format("YYYY-MM-DD ddd h:mm:ss a");                        
+                        } else {
+                            ans = "Absent";
+                        }
+                        // -------------------------------------------
+                        event.time = ans;       
+                        event.eventType = req.body.students.eventType;
+                        event.operator = req.body.students.operator;
+                        Event.create(event, function(err, newEvent){
+                            newEvent.save();
+                            resolve();
+                        });
+                    }
+                });                
+            });
+        }(i));
+    };
+    Promise.all(queries).then(function(){
+        res.redirect("/manage/note/event");        
+    }).catch(function(err){
+        console.log(err);
+    });
 });
 
 // Show the comment panel
@@ -204,7 +233,7 @@ router.post("/note/event/:event_id/edit", function(req, res){
             req.flash("error", err.message);
             res.redirect("back");
         } else {
-            res.render("manage/note/event/edit", {event: foundEvent, referer:req.headers.referer, eventFlag: req.body.eventFlag});
+            res.render("manage/note/event/edit", {event: foundEvent, referer:req.headers.referer, eventFlag:req.body.eventFlag, isReset:req.body.isReset});
         }
     })
 });
@@ -217,46 +246,66 @@ router.put("/note/event/:event_id", function(req, res){
     } else {
         collection = Activity;
     }
-    collection.findByIdAndUpdate(req.params.event_id, 
-    {
-        "$set": { 
-            "comment": req.body.comment,
-            "supervisor": req.body.commenter
-        }
-    },
-    function(err, updatedEvent){
-        console.log(updatedEvent);
-        if (err) {
-            req.flash("error", err.message);
-            res.redirect("back");
-        } else {
-            if (req.body.eventFlag == "true"){
-                res.redirect("/manage/note/event/");
-            } else {
-                res.redirect(req.body.referer);                
+    if (req.body.isReset == "false"){
+        collection.findByIdAndUpdate(req.params.event_id, 
+        {
+            "$set": { 
+                "comment": req.body.comment,
+                "supervisor": req.body.commenter
             }
-
-        }
-    })
+        },
+        function(err, updatedEvent){
+            if (err) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                if (req.body.eventFlag == "true"){
+                    res.redirect("/manage/note/event/");
+                } else {
+                    res.redirect(req.body.referer);                
+                }
+    
+            }
+        })        
+    } else {
+        collection.findByIdAndUpdate(req.params.event_id, 
+        {
+            "$set": { 
+                "comment": "",
+                "supervisor": ""
+            }
+        },
+        function(err, updatedEvent){
+            if (err) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                if (req.body.eventFlag == "true"){
+                    res.redirect("/manage/note/event/");
+                } else {
+                    res.redirect("back");                
+                }
+            }
+        }) 
+    }
 });
 
-// reset a comment
+// delete an event
 router.delete("/note/event/:event_id", function(req, res){
-    Event.findByIdAndUpdate(req.params.event_id, 
-    {
-        "$set": { 
-            "comment": "",
-            "supervisor": ""
-        }
-    },
-    function(err, updatedEvent){
+    var collection;
+    if (req.body.eventFlag == "true") {
+        collection = Event;
+    } else {
+        collection = Activity;
+    }
+    collection.findByIdAndRemove(req.params.event_id, function(err){
         if (err) {
             req.flash("error", err.message);
             res.redirect("back");
         } else {
             res.redirect("back");
         }
-    })
+    });
 });
 
 // write the current events into DB and students
@@ -285,7 +334,6 @@ router.post("/note/event", function(req, res){
                             } else {
                                 student.footprint.push(newActivity._id);
                                 student.save();
-                                console.log(student.footprint);
                             }
                         });                    
                     })(newActivity);   

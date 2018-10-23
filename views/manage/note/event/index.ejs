@@ -52,11 +52,41 @@
                                             <td>
                                                <form style="display: inline" action="/manage/note/event/<%= event._id %>/edit" method="POST">
                                                     <input type="hidden" name="eventFlag" value="true">
-                                                    <button class="btn btn-xs btn-success submit">Comment</button>                                                    
+                                                    <input type="hidden" name="isReset" value="false">
+                                                    <button class="btn btn-xs btn-primary submit">Comment</button>                                                    
                                                </form>                                               
-                                               <form style="display: inline" action="/manage/note/event/<%= event._id %>?_method=DELETE" method="POST">
-                                                    <button class="btn btn-xs btn-primary submit">Reset Comment</button>                                                    
+                                               <form style="display: inline" action="/manage/note/event/<%= event._id %>?_method=PUT" method="POST">
+                                                    <input type="hidden" name="eventFlag" value="true">
+                                                    <input type="hidden" name="isReset" value="true">
+                                                    <button class="btn btn-xs btn-success submit">Reset Comment</button>                                                    
                                                </form>
+                                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal">
+                                                    Delete
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                <h4 class="modal-title" id="myModalLabel">WARNING!</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Do you really want to delete this record? This is irreversible!
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                                               <form style="display: inline" action="/manage/note/event/<%= event._id %>?_method=DELETE" method="POST">
+                                                                    <input type="hidden" name="eventFlag" value="true">
+                                                                    <button class="btn btn-danger submit">Delete</button>                                                    
+                                                               </form>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.modal-content -->
+                                                    </div>
+                                                    <!-- /.modal-dialog -->
+                                                </div>
+                                                <!-- /.modal -->
                                             </td>
                                         </tr>                                        
                                     <% }); %>

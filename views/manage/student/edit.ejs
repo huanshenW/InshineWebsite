@@ -111,8 +111,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% student.footprint.forEach(function(event){ %>
-                                        <% console.log(event); %>
+                                    <% for(var i = student.footprint.length - 1; i >=0; i--) { %>
+                                        <% var event = student.footprint[i]; %>
                                         <tr>
                                             <td><%= event.eventType %></td>
                                             <td><%= event.time %></td>
@@ -132,19 +132,46 @@
                                                 <% } %>
                                             </td>
                                             <td>
-                                               <form style="display: inline" action="/manage/note/event/<%= event._id %>/edit" method="POST">
+                                                <form style="display: inline" action="/manage/note/event/<%= event._id %>/edit" method="POST">
                                                     <input type="hidden" name="eventFlag" value="false">
+                                                    <input type="hidden" name="isReset" value="false">
                                                     <button class="btn btn-xs btn-warning submit">Edit Comment</button>                                                    
-                                               </form>                                               
-                                               <form style="display: inline" action="/manage/note/event/<%= event._id %>?_method=DELETE" method="POST">
+                                                </form>                                               
+                                                <form style="display: inline" action="/manage/note/event/<%= event._id %>?_method=PUT" method="POST">
+                                                    <input type="hidden" name="eventFlag" value="false">
+                                                    <input type="hidden" name="isReset" value="true">
                                                     <button class="btn btn-xs btn-success submit">Reset Comment</button>                                                    
-                                               </form>                                               
-                                               <form style="display: inline" action="/manage/note/event/<%= event._id %>?_method=DELETE" method="POST">
-                                                    <button class="btn btn-xs btn-danger submit">Delete Event</button>                                                    
-                                               </form>
+                                                </form>                                               
+                                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal">
+                                                    Delete
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                <h4 class="modal-title" id="myModalLabel">WARNING!</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Do you really want to delete this record? This is irreversible!
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                                                <form style="display: inline" action="/manage/note/event/<%= event._id %>?_method=DELETE" method="POST">
+                                                                    <input type="hidden" name="eventFlag" value="false">
+                                                                    <button class="btn btn-danger submit">Delete Record</button>                                                    
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.modal-content -->
+                                                    </div>
+                                                    <!-- /.modal-dialog -->
+                                                </div>
+                                                <!-- /.modal -->
                                             </td>
                                         </tr>                                        
-                                    <% }); %>
+                                    <% }; %>
                                 </tbody>
                             </table>
                            <form action="/manage/note/event" method="POST">
