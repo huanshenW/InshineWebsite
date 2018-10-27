@@ -17,6 +17,7 @@
         
         <!-- Font awesome-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <link href="/css/main.css" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -48,7 +49,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">Logout</a>
                             </li>
-                            <% if (currentUser.isAdmin || true) { %>
+                            <% if (currentUser.isAdmin) { %>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/manage/">Manage</a>
                                 </li>
@@ -59,7 +60,7 @@
             </div>
         </nav>
         
-        <div class="container">
+        <div class="container my-4">
             <% if (error && error.length>0){ %>
                 <div class="alert alert-danger" role="alert">
                     <%= error %>

@@ -11,8 +11,35 @@ var middleware = require("../middleware/");
 var async = require("async");
 
 
-router.get("/", /*middleware.checkIsAdmin,*/ function(req, res){
-    res.render("manage/index");
+router.get("/", middleware.checkIsAdmin, function(req, res){
+    var queries = [];
+    var numEvents = 0;
+    var activities;
+    queries.push(
+        function(){
+            return new Promise((resolve, reject) =>{
+                Event.find({}, function(err, foundEvents){
+                    if (err){
+                        numEvents = 0;
+                    } else {
+                        numEvents = foundEvents.length;                        
+                    }
+                    resolve();
+                })
+            });
+        }()
+    );    
+    
+    Promise.all(queries).then(function(){
+        Activity.find({}, function(err, foundActivities){
+            if (err) {
+                foundActivities = [];
+            }
+            res.render("manage/index", {numEvents:numEvents, activites: foundActivities});               
+        });
+    }).catch(function(err){
+        console.log(err);
+    });
 });
 
 // =======
@@ -20,12 +47,12 @@ router.get("/", /*middleware.checkIsAdmin,*/ function(req, res){
 // =======
 
 //NEW - show the new student register page
-router.get("/student/new", function(req, res){
+router.get("/student/new", middleware.checkIsAdmin, function(req, res){
     res.render("manage/student/new");
 });
 
 //ADD - 
-router.post("/student/", function(req, res){
+router.post("/student/", middleware.checkIsAdmin, function(req, res){
     var newUser = new User({username: req.body.student.username});
     User.register(newUser, req.body.student.password, function(err, user){
         if (err) {
@@ -48,7 +75,7 @@ router.post("/student/", function(req, res){
 });
 
 //SHOW(INDEX) - show the student's enroll list
-router.get("/student/index", function(req, res){
+router.get("/student/index", middleware.checkIsAdmin, function(req, res){
     Student.find({}, function(err, students){
        if (err){
            req.flash("error", "Can't find any student.");
@@ -60,7 +87,7 @@ router.get("/student/index", function(req, res){
 });
 
 //SHOW(PROFILE) - show a student's profile
-router.get("/student/:student_id", function(req, res){
+router.get("/student/:student_id", middleware.checkIsAdmin, function(req, res){
     Student.findById(req.params.student_id).populate("footprint").exec(function(err, foundStudent){
         if (err) {
             req.flash("error", "Student not found!");
@@ -72,7 +99,7 @@ router.get("/student/:student_id", function(req, res){
 });
 
 //show the edit page for a student
-router.get("/student/:student_id/edit", function(req, res){
+router.get("/student/:student_id/edit", middleware.checkIsAdmin, function(req, res){
     Student.findById(req.params.student_id).populate("footprint").exec(function(err, foundStudent){
         if (err) {
             req.flash("error", "Student not found!");
@@ -83,7 +110,8 @@ router.get("/student/:student_id/edit", function(req, res){
     });
 });
 
-router.put("/student/:student_id", function(req, res){
+// edit a student's profile info.
+router.put("/student/:student_id", middleware.checkIsAdmin, function(req, res){
     var isNoonCare = "";
     if (req.body.student.isNoonCare=="on"){
         isNoonCare = "Enrolled";
@@ -122,7 +150,7 @@ router.put("/student/:student_id", function(req, res){
     }) 
 });
 
-router.delete("/student/:student_id", function(req, res){
+router.delete("/student/:student_id", middleware.checkIsSuperAdmin, function(req, res){
     Student.findByIdAndRemove(req.params.student_id, function(err){
         if (err){
             req.flash("error", err.message);
@@ -139,12 +167,12 @@ router.delete("/student/:student_id", function(req, res){
 // =========
 
 // show the clock in types
-router.get("/note/clockin", function(req, res){
+router.get("/note/clockin", middleware.checkIsAdmin, function(req, res){
     res.render("manage/note/clockin/index")    
 });
 
 // Process the ClockingType and render the specific workspace
-router.post("/note/clockin", function(req, res){
+router.post("/note/clockin", middleware.checkIsAdmin, function(req, res){
     var checkType = String(req.body.clockinType);
     Student.find({[checkType]: "Enrolled"}, function(err, foundStudents){
         if (err) {
@@ -163,7 +191,7 @@ router.post("/note/clockin", function(req, res){
 });
 
 // Receive clockingIn results and create events
-router.post("/note/clockin/result", function(req, res){
+router.post("/note/clockin/result", middleware.checkIsAdmin, function(req, res){
     var num = req.body.students.clickTime.length;
     var queries = [];
     
@@ -209,7 +237,7 @@ router.post("/note/clockin/result", function(req, res){
 });
 
 // Show the comment panel
-router.get("/note/event", function(req, res){
+router.get("/note/event", middleware.checkIsAdmin, function(req, res){
     Event.find(function(err, currentEvents){
         if (err) {
             req.flash("error", err.message);
@@ -221,7 +249,7 @@ router.get("/note/event", function(req, res){
 });
 
 // Show the edit form of event_id
-router.post("/note/event/:event_id/edit", function(req, res){
+router.post("/note/event/:event_id/edit", middleware.checkIsAdmin, function(req, res){
     var collection;
     if (req.body.eventFlag == "true") {
         collection = Event;
@@ -239,7 +267,7 @@ router.post("/note/event/:event_id/edit", function(req, res){
 });
 
 // update a comment
-router.put("/note/event/:event_id", function(req, res){
+router.put("/note/event/:event_id", middleware.checkIsAdmin, function(req, res){
     var collection;
     if (req.body.eventFlag == "true") {
         collection = Event;
@@ -291,7 +319,7 @@ router.put("/note/event/:event_id", function(req, res){
 });
 
 // delete an event
-router.delete("/note/event/:event_id", function(req, res){
+router.delete("/note/event/:event_id", middleware.checkIsSuperAdmin, function(req, res){
     var collection;
     if (req.body.eventFlag == "true") {
         collection = Event;
@@ -309,7 +337,7 @@ router.delete("/note/event/:event_id", function(req, res){
 });
 
 // write the current events into DB and students
-router.post("/note/event", function(req, res){
+router.post("/note/event", middleware.checkIsSuperAdmin, function(req, res){
     Event.find(function(err, events){
         if (err) {
             req.flash("error", err.message);

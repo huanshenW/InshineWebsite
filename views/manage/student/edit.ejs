@@ -1,7 +1,6 @@
 <% include ../../partials/manageHeader %>
 
 
-        <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Student Information Edit</h1>
@@ -16,71 +15,77 @@
                         <!--    Student Enroll Form-->
                         <!--</div>-->
                         <div class="panel-body">
-                            <div class="row">
+
                                 <form role="form" action="/manage/student/<%=student._id%>?_method=PUT" method="POST">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Name</label>
-                                            <input class="form-control" name="student[name]" value="<%=student.name%>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <select class="form-control" name="student[gender]" value="<%=student.gender%>">
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                                <option>Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Age</label>
-                                            <input class="form-control" name="student[age]" value="<%=student.age%>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Class Number</label>
-                                            <input class="form-control" name="student[classNumber]" value="<%=student.classNumber%>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Primary Contact Person</label>
-                                            <input class="form-control" name="student[contact1]" value="<%=student.contact1%>">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>Phone</label>
-                                            <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone1]" value="<%=student.phone1%>">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>Secondary Contact Person</label>
-                                            <input class="form-control" name="student[contact2]" value="<%=student.contact2%>">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>Phone</label>
-                                            <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone2]" value="<%=student.phone2%>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Enrollment Plan</label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="student[isNoonCare]" <% if (student.isNoonCare) {%>checked <% } %>>Noon Care
-                                                </label>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input class="form-control" name="student[name]" value="<%=student.name%>">
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="student[isAfternoonCare]" <% if (student.isAfternoonCare) {%>checked <% } %>>Afternoon Care
-                                                </label>
+                                            <div class="form-group">
+                                                <label>Gender</label>
+                                                <select class="form-control" name="student[gender]" value="<%=student.gender%>">
+                                                    <option>Male</option>
+                                                    <option>Female</option>
+                                                    <option>Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Age</label>
+                                                <input class="form-control" name="student[age]" value="<%=student.age%>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Class Number</label>
+                                                <input class="form-control" name="student[classNumber]" value="<%=student.classNumber%>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Primary Contact Person</label>
+                                                <input class="form-control" name="student[contact1]" value="<%=student.contact1%>">
+                                            </div>                                        
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone1]" value="<%=student.phone1%>">
+                                            </div>                                        
+                                            <div class="form-group">
+                                                <label>Secondary Contact Person</label>
+                                                <input class="form-control" name="student[contact2]" value="<%=student.contact2%>">
+                                            </div>                                        
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone2]" value="<%=student.phone2%>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Enrollment Plan</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="student[isNoonCare]" <%= student.isNoonCare == "-" ? "" : "checked" %>>Noon Care
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="student[isAfternoonCare]" <%= student.isAfternoonCare == "-" ? "" : "checked" %>>Afternoon Care
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Other Notes</label>
-                                            <textarea class="form-control" rows="5" name="student[note]"><%=student.note%></textarea>
+                                    
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Other Notes</label>
+                                                <textarea class="form-control" rows="5" name="student[note]"><%=student.note%></textarea>
+                                            </div>
                                         </div>
+                                        
                                     </div>
                                     
-                                    <button type="submit" class="btn btn-primary">Submit Button</button>
+                                    <hr>                                    
+                                    <div class="row container">
+                                        <a href="javascript:history.back()"><button class="btn btn-lg btn-primary">Go Back</button></a>
+                                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>                                        
+                                    </div>
                                 </form>
-                            </div>
-                            <!-- /.row (nested) -->
+
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -174,9 +179,6 @@
                                     <% }; %>
                                 </tbody>
                             </table>
-                           <form action="/manage/note/event" method="POST">
-                                <button class="btn btn-lg btn-primary submit">Submit</button>                                                    
-                           </form>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -189,4 +191,42 @@
         </div>
         <!-- /#page-wrapper -->
 
-<% include ../../partials/manageFooter %>
+    <!-- jQuery -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            autoWidth: false,
+            "columns": [
+                { "width": "9%" },
+                { "width": "15%" },
+                { "width": "9%" },
+                { "width": "41%" },
+                { "width": "9%" },
+                { "width": "25%" },
+              ],
+            responsive: true
+        });
+    });
+    </script>
+    </script>
+
+</body>
+
+</html>

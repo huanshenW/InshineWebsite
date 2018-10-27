@@ -1,6 +1,5 @@
 <% include ../../partials/manageHeader %>
 
-        <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Student Information Table</h1>
@@ -117,9 +116,19 @@
     <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
+            autoWidth: false,
+            "columns": [
+                { "width": "16.7%" },
+                { "width": "16.7%" },
+                { "width": "16.7%" },
+                { "width": "16.7%" },
+                { "width": "16.7%" },
+                { "width": "16.7%" }
+              ],
             responsive: true
         });
     });
+    </script>
     </script>
 
 </body>

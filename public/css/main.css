@@ -1,0 +1,8 @@
+.alert {
+    margin: 5px auto 0 auto;
+}
+
+.dataTable tbody td {
+    word-break: break-word;
+    vertical-align: top;
+}

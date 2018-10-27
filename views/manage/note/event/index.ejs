@@ -1,6 +1,5 @@
 <% include ../../../partials/manageHeader %>
 
-        <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header"> Comment Workspace</h1>
@@ -130,6 +129,18 @@
     <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
+            autoWidth: false,
+            "columns": [
+                { "width": "9%" },
+                { "width": "9%" },
+                { "width": "13%" },
+                { "width": "9%" },
+                { "width": "35%" },
+                { "width": "9%" },
+                { "width": "16%" }
+              ],
+            "aLengthMenu": [[-1, 50, 25, 10], ["All", 50, 25, 10]],
+            "pageLength": -1,
             responsive: true
         });
     });

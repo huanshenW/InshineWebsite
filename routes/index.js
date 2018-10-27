@@ -26,8 +26,11 @@ router.get("/register", function(req, res){
 router.post("/register", function(req, res){
     // create a new user object
     var newUser = new User({username: req.body.username});
-    if (req.body.secretcode === "axjy#1238#") {
+    if (req.body.secretcode === "axjy#123#") {
         newUser.isAdmin = true;
+    } else if (req.body.secretcode === "axjy#0205#") {
+        newUser.isAdmin = true;
+        newUser.isSuperAdmin = true;
     }
     // pass the info to model user and use passport-local-mongoose to handle the registration.
     User.register(newUser, req.body.password, function(err, user){
@@ -36,7 +39,13 @@ router.post("/register", function(req, res){
            res.redirect("register");
         }
         passport.authenticate("local")(req, res, function(){
-            req.flash("success", "Welcome to YelpCamp " + user.username);
+            if (user.isSuperAdmin) {
+                req.flash("success", "Welcome to Inshine Education " + user.username +". You are a super-admin now!");
+            } else if (user.isAdmin) {
+                req.flash("success", "Welcome to Inshine Education " + user.username +". You are an admin now!");
+            } else {
+                req.flash("success", "Welcome to Inshine Education " + user.username);                
+            }
             res.redirect("/home"); 
         });
     });

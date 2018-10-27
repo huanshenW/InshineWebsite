@@ -1,7 +1,5 @@
 <% include ../../partials/manageHeader %>
 
-
-        <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Registration</h1>
@@ -16,79 +14,82 @@
                             New Student Enroll Form
                         </div>
                         <div class="panel-body">
-                            <div class="row">
+                            
                                 <form role="form" action="/manage/student" method="POST">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Name</label>
-                                            <input class="form-control" name="student[name]">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <select class="form-control" name="student[gender]">
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                                <option>Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Age</label>
-                                            <input class="form-control" name="student[age]">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Class Number</label>
-                                            <input class="form-control" name="student[classNumber]">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Primary Contact Person</label>
-                                            <input class="form-control" name="student[contact1]">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>Phone</label>
-                                            <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone1]">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>Secondary Contact Person</label>
-                                            <input class="form-control" name="student[contact2]">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>Phone</label>
-                                            <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone2]">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Enrollment Plan</label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="student[isNoonCare]">Noon Care
-                                                </label>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input class="form-control" name="student[name]">
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="student[isAfternoonCare]">Afternoon Care
-                                                </label>
+                                            <div class="form-group">
+                                                <label>Gender</label>
+                                                <select class="form-control" name="student[gender]">
+                                                    <option>Male</option>
+                                                    <option>Female</option>
+                                                    <option>Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Age</label>
+                                                <input class="form-control" name="student[age]">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Class Number</label>
+                                                <input class="form-control" name="student[classNumber]">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Primary Contact Person</label>
+                                                <input class="form-control" name="student[contact1]">
+                                            </div>                                        
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone1]">
+                                            </div>                                        
+                                            <div class="form-group">
+                                                <label>Secondary Contact Person</label>
+                                                <input class="form-control" name="student[contact2]">
+                                            </div>                                        
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <input type="text" class="form-control input-medium bfh-phone" data-format="(ddd) ddd-dddd" name="student[phone2]">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Enrollment Plan</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="student[isNoonCare]">Noon Care
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="student[isAfternoonCare]">Afternoon Care
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                 
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Username</label>
-                                            <input class="form-control" type="text" name="student[username]">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Password</label>
-                                            <input class="form-control" type="password" name="student[password]">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Other Notes</label>
-                                            <textarea class="form-control" rows="5" name="student[note]"></textarea>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Username</label>
+                                                <input class="form-control" type="text" name="student[username]">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Password</label>
+                                                <input class="form-control" type="password" name="student[password]">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Other Notes</label>
+                                                <textarea class="form-control" rows="5" name="student[note]"></textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                    
-                                    <button type="submit" class="btn btn-primary">Submit Button</button>
+                                        
+                                    <hr>                                    
+                                    <div class="row container">
+                                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>                                        
+                                    </div>
                                 </form>
-                            </div>
-                            <!-- /.row (nested) -->
                         </div>
                         <!-- /.panel-body -->
                     </div>

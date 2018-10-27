@@ -27,6 +27,7 @@
     
     <!--Workspace CSS-->
     <link href="/css/clockin-workspace.css" rel="stylesheet" type="text/css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -59,7 +60,7 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i>Admin: </a></li>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i>Admin: <%= currentUser.username %></a></li>
                         <!--<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>-->
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -121,22 +122,24 @@
             <!-- /.navbar-static-side -->
         </nav>
 
-        <div class="row">
-            <div class="container">
-                <% if (error && error.length>0){ %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= error %>
-                    </div>
-                <% } %>
-                <% if (success && success.length>0){ %>
-                    <div class="alert alert-success" role="alert">
-                        <%= success %>
-                    </div>
-                <% } %>
-            </div>                
-        </div>
 
-        <div id="page-wrapper">
+
+        <div id="page-wrapper">        
+            <div class="row">
+                <div class="container col-lg-12">
+                    <% if (error && error.length>0){ %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= error %>
+                        </div>
+                    <% } %>
+                    <% if (success && success.length>0){ %>
+                        <div class="alert alert-success" role="alert">
+                            <%= success %>
+                        </div>
+                    <% } %>
+                </div>                
+            </div>
+            
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Welcome to the Clocking-in Workspace</h1>
@@ -164,7 +167,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
+                            <div class="row container">
                                 <form action="/manage/note/clockin/result" method="POST">
                                     <% students.forEach(function(student, i){ %>
                                         <input name="students[clickTime]" type="hidden" class="hid-input" value="Absent">
@@ -172,7 +175,8 @@
                                     <% }); %>
                                     <input name="students[operator]" type="hidden" value="<%= currentUser.username %>">
                                     <input name="students[eventType]" type="hidden" value="<%= eventType %>">
-                                    <button id="submit-btn" type="submit" class="btn btn-lg btn-primary">Finish</button>
+                                    <a href="/manage/note/clockin/"><button type="button" class="btn btn-primary">Cancel</button></a>
+                                    <button id="submit-btn" type="submit" class="btn btn-primary">Finish</button>
                                 </form>
                             </div>
                             <!-- /.row (nested) -->

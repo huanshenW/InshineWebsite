@@ -23,19 +23,25 @@ function seedDB(){
                 } else {
                     g = "Female";
                 }
-                var ran1 = String(faker.random.boolean());
-                if (ran1 == "true") {
-                    ran1 = "Enrolled";
-                } else {
-                    ran1 = "-";
-                }
+                var ran1 = "-";
+                var ran2 = "-";
                 
-                var ran2 = String(faker.random.boolean());
-                if (ran2 == "true") {
-                    ran2 = "Enrolled";
-                } else {
-                    ran2 = "-";
+                while (ran1 == "-" && ran2 == "-") {
+                    ran1 = String(faker.random.boolean());
+                    if (ran1 == "true") {
+                        ran1 = "Enrolled";
+                    } else {
+                        ran1 = "-";
+                    }
+                    
+                    ran2 = String(faker.random.boolean());
+                    if (ran2 == "true") {
+                        ran2 = "Enrolled";
+                    } else {
+                        ran2 = "-";
+                    }                    
                 }
+
                 var username = faker.name.firstName() + String(i);
                 var object = {
                     name: username,
