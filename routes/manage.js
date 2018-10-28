@@ -63,8 +63,11 @@ router.post("/student/", middleware.checkIsAdmin, function(req, res){
                 if (err){
                     console.log(err);
                 } else {
+                    user.student.id = newStudent._id;
+                    user.save();
                     newStudent.user.id = user._id;
                     newStudent.user.username = req.body.student.username;
+                    newStudent.timeEnrolled = moment(new Date()).tz("Asia/Shanghai").format("YYYY-MM-DD ddd h:mm:ss a");
                     newStudent.save();
                     req.flash("success", "Registration success!");
                     res.redirect("/manage/student/new");

@@ -16,7 +16,8 @@ var
 // Requring routes
 var
     indexRoutes             = require("./routes/index"),
-    manageRoutes            = require("./routes/manage")
+    manageRoutes            = require("./routes/manage"),
+    homeRoutes              = require("./routes/home")
     // homeRoutes              = require("./routes/home"),
     // commentRoutes           = require("./routes/comments");
 
@@ -26,6 +27,7 @@ mongoose.connect("mongodb://localhost:27017/anxin", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use("/startbootstrap-agency", express.static(__dirname + "/startbootstrap-agency"));
 app.use(methodOverride("_method"));
 app.use(flash());
 
@@ -51,7 +53,7 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/manage", manageRoutes);
-// app.use("/home", homeRoutes)
+app.use("/home", homeRoutes);
 // app.use("/campgrounds/:id/comments", commentRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){

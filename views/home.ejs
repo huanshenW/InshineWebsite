@@ -1,19 +1,23 @@
 <% include ./partials/header %>
+
     <!-- Page Content -->
     <div class="container">
 
       <!-- Heading Row -->
       <div class="row my-4">
-        <div class="col-lg-8">
-          <img class="img-fluid rounded" src="https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/6/2016/11/04145139/Diverse-group-of-children.jpg" alt="">
+        <div container>
+          <div class="thumbnail col-lg-8">
+            <img class="img-fluid rounded" src="https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/6/2016/11/04145139/Diverse-group-of-children.jpg" alt="">
+          </div>
+          <!-- /.col-lg-8 -->
+          <div class="col-lg-4">
+            <h1>Inshine Education</h1>
+            <p>We do care about your children. And we are taking it very seriously. Here we provide your child with healthy and delicious meals, quiet and comfortable rest place as well as professional study tutors.</p>
+            <a class="btn btn-primary btn-lg" href="#">Learn More</a>
+          </div>
+          <!-- /.col-md-4 -->          
         </div>
-        <!-- /.col-lg-8 -->
-        <div class="col-lg-4">
-          <h1>Inshine Education</h1>
-          <p>We do care about your children. And we are taking it very seriously. Here we provide your child with healthy and delicious meals, quiet and comfortable rest place as well as professional study tutors.</p>
-          <a class="btn btn-primary btn-lg" href="#">Learn More</a>
-        </div>
-        <!-- /.col-md-4 -->
+
       </div>
       <!-- /.row -->
 
@@ -30,10 +34,10 @@
           <div class="card h-100">
             <div class="card-body">
               <h2 class="card-title"><i class="fas fa-history"></i> My Footprints</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+              <p class="card-text">We have made personal file for every student since they enrolled. Click the button below to explore your own footprints and check your profile.</p>
             </div>
             <div class="card-footer">
-              <a href="#" class="btn btn-primary">More Info</a>
+              <a href="/home/<%= currentUser? currentUser.student.id: "visitor" %>" class="btn btn-primary">More Info</a>
             </div>
           </div>
         </div>

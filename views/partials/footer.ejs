@@ -1,14 +1,45 @@
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Inshine Education 2018</p>
-      </div>
-      <!-- /.container -->
+    <footer class="footer" style="background-color:#212121">
+        <div class="container">
+            <p id="footer-text">Copyright &copy; Inshine Education 2018</p>
+        </div>
+        <!-- /.container -->
     </footer>
+    
+    <!-- jQuery -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-  </body>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            autoWidth: false,
+            "columns": [
+                { "width": "15%" },
+                { "width": "23%" },
+                { "width": "12%" },
+                { "width": "42%" },
+                { "width": "8%" },
+              ],
+            responsive: true
+        });
+    });
+    </script>
+    </script>
+
+</body>
 
 </html>
