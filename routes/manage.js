@@ -329,6 +329,9 @@ router.delete("/note/event/:event_id", middleware.checkIsSuperAdmin, function(re
     } else {
         collection = Activity;
     }
+    collection.findById(req.params.event_id, function(err, event){
+        console.log(event);
+    })
     collection.findByIdAndRemove(req.params.event_id, function(err){
         if (err) {
             req.flash("error", err.message);

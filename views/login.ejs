@@ -1,11 +1,130 @@
-<% include ./partials/header %>
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
 
-<h1>Welcome to the Login Page</h1>
+  <head>
 
-<form action="/login" method="POST">
-    <input type="text" name="username" placeholder="username">
-    <input type="password" name="password" placeholder="password">
-    <button>Login</button>
-</form>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<% include ./partials/footer %>
+    <title>Inshine Education</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/startbootstrap-agency/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="/startbootstrap-agency/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="/startbootstrap-agency/css/agency.min.css" rel="stylesheet">
+
+  </head>
+
+  <body style="height:100%">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Inshine Education</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Home</a>
+            </li>
+            <% if (!currentUser) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                    <!--<a class="nav-link portfolio-link" data-toggle="modal" href="#LoginModal">Login</a>-->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Signup</a>
+                    <!--<a class="nav-link portfolio-link" data-toggle="modal" href="#RegisterModal">Signup</a>-->
+                </li>
+            <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><strong><%= currentUser.username %></strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <% if (currentUser.isAdmin) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manage/">Manage</a>
+                    </li>
+                <% } %>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead" style="height:100%">
+      <div class="container">
+        <% if (error && error.length>0){ %>
+            <div class="alert alert-danger alert-dismissible" role="alert" style="position: absolute; margin:100px;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <%= error %>
+            </div>
+        <% } %>
+        <% if (success && success.length>0){ %>
+            <div class="alert alert-success alert-dismissible" role="alert" style="position: absolute; margin:100px;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <%= success %>
+            </div>            
+        <% } %>    
+
+          <div class="intro-text">
+              <div class="row">
+                <h1 style="text-align:center; margin: auto auto">WELCOME TO LOGIN</h1>                        
+              </div>
+              <div class="row">
+                  <div style="width:30%; margin: 25px auto;">
+                      <form action="/login" method="POST">
+                          <div class="form-group">
+                              <input class="form-control" type="text" name="username" placeholder="Username">
+                          </div>
+                          <div class="form-group">
+                              <input class="form-control" type="password" name="password" placeholder="Password">
+                          </div>
+                          <div class="form-group">
+                              <input class="btn btn-lg btn-primary btn-block" type="submit" value="LOG IN">
+                          </div>
+                      </form>
+                  </div>
+              </div>              
+          </div>
+      </div>
+    </header>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/startbootstrap-agency/vendor/jquery/jquery.min.js"></script>
+    <script src="/startbootstrap-agency/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/startbootstrap-agency/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Contact form JavaScript -->
+    <script src="/startbootstrap-agency/js/jqBootstrapValidation.js"></script>
+    <script src="/startbootstrap-agency/js/contact_me.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="/startbootstrap-agency/js/agency.min.js"></script>
+
+  </body>
+
+</html>

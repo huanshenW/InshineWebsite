@@ -147,11 +147,11 @@
                                                     <input type="hidden" name="isReset" value="true">
                                                     <button class="btn btn-xs btn-success submit">Reset Comment</button>                                                    
                                                 </form>                                               
-                                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal">
+                                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#<%=event._id%>">
                                                     Delete
                                                 </button>
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="<%=event._id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">

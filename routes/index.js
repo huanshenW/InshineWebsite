@@ -3,6 +3,7 @@ var app = express();
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var Student = require("../models/student");
 
 // Root route
 router.get("/", function(req, res){
@@ -38,7 +39,7 @@ router.post("/register", function(req, res){
     User.register(newUser, req.body.password, function(err, user){
         if (err){
            req.flash("error", err.message);
-           res.redirect("register");
+           res.redirect("/register");
         }
         passport.authenticate("local")(req, res, function(){
             if (user.isSuperAdmin) {
@@ -59,11 +60,18 @@ router.get("/login", function(req, res){
 });
 
 // handling login logic
-router.post("/login", passport.authenticate("local", 
-    {
-        successRedirect: "/home",
-        failureRedirect: "/login"
-    }), function(req, res){
+router.post("/login", function(req, res, next){
+    passport.authenticate('local', function(err, user, info) {
+    if (err || !user) { 
+        req.flash("error", info.message);
+        return res.redirect('/login'); 
+    }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      req.flash("success", "Welcome to Inshine Education " + user.username);
+      res.redirect('/home');
+    });
+    })(req, res, next);
 });
 
 // logout logic
@@ -73,5 +81,16 @@ router.get("/logout", function(req, res) {
    res.redirect("/home");
 });
 
+// show student profile
+router.get("/student/:student_id", function(req, res){
+    Student.findById(req.params.student_id).populate("footprint").exec( function(err, foundStudent){
+        if (err) {
+            req.flash("error", "Student not found!");
+            res.redirect("back");
+        } else {
+            res.render(__dirname + '/../startbootstrap-agency/profile', {student: foundStudent});
+        }
+    });
+});
 
 module.exports = router;
