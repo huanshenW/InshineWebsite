@@ -25,6 +25,11 @@ a:hover {
   color: #fec503 !important;
 }
 
+a .img-fluid {
+  height:260px;
+  width:100%;
+}
+
 h1,
 h2,
 h3,
