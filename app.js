@@ -17,8 +17,7 @@ var
     manageRoutes            = require("./routes/manage"),
     homeRoutes              = require("./routes/home")
 
-// mongoose.connect("mongodb://localhost:27017/anxin", { useNewUrlParser: true });
-mongoose.connect("mongodb://huanshew:axjy#0205#@ds147003.mlab.com:47003/inshine", { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASEURL);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
