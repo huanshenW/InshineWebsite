@@ -195,13 +195,15 @@ router.post("/note/clockin", middleware.checkIsAdmin, function(req, res){
 
 // Receive clockingIn results and create events
 router.post("/note/clockin/result", middleware.checkIsAdmin, function(req, res){
+    if (!req.body.students.clickTime) {
+        res.redirect("/manage/note/event");
+    }
     var num = req.body.students.clickTime.length;
     var queries = [];
-    
-    for (var i = 0; i < num; i++) {
-        queries.push(function(i){
+    if (typeof(req.body.students.clickTime) == "string") {
+        queries.push(function(){
             return new Promise((resolve, reject) =>{
-                Student.findById(req.body.students.id[i], function(err, foundStudent){
+                Student.findById(req.body.students.id, function(err, foundStudent){
                     if (err) {
                         reject();
                         // req.flash("error", err.message);
@@ -212,7 +214,7 @@ router.post("/note/clockin/result", middleware.checkIsAdmin, function(req, res){
                         event.student.name = foundStudent.name;
                         event.student.id = foundStudent._id;
                         // --------- Moment.js formatting ------------
-                        var str = req.body.students.clickTime[i];
+                        var str = req.body.students.clickTime;
                         var ans = "";
                         if (!(str == "Absent")) {
                             ans = moment(str).tz("Asia/Shanghai").format("YYYY-MM-DD ddd h:mm:ss a");                        
@@ -230,8 +232,48 @@ router.post("/note/clockin/result", middleware.checkIsAdmin, function(req, res){
                     }
                 });                
             });
-        }(i));
-    };
+        }());
+    } else {
+        for (var i = 0; i < num; i++) {
+            queries.push(function(i){
+                return new Promise((resolve, reject) =>{
+                    Student.findById(req.body.students.id[i], function(err, foundStudent){
+                                                console.log(req.body.students.id);
+                                                console.log(foundStudent);
+                        if (err) {
+                            reject();
+                            // req.flash("error", err.message);
+                            // res.redirect("back");
+                        } else {
+                            var event = {};
+                            event.student = {};
+                            console.log("foundStudent is :");
+                            console.log(foundStudent);
+                            event.student.name = foundStudent.name;
+                            event.student.id = foundStudent._id;
+                            // --------- Moment.js formatting ------------
+                            var str = req.body.students.clickTime[i];
+                            var ans = "";
+                            if (!(str == "Absent")) {
+                                ans = moment(str).tz("Asia/Shanghai").format("YYYY-MM-DD ddd h:mm:ss a");                        
+                            } else {
+                                ans = "Absent";
+                            }
+                            // -------------------------------------------
+                            event.time = ans;       
+                            event.eventType = req.body.students.eventType;
+                            event.operator = req.body.students.operator;
+                            Event.create(event, function(err, newEvent){
+                                newEvent.save();
+                                resolve();
+                            });
+                        }
+                    });                
+                });
+            }(i));
+        };        
+    }
+    
     Promise.all(queries).then(function(){
         res.redirect("/manage/note/event");        
     }).catch(function(err){

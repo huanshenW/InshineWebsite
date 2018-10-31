@@ -51,11 +51,11 @@
                                                     <button class="btn btn-xs btn-warning">Edit</button>                                                    
                                                 </form>
 
-                                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal">
+                                                <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#<%= student._id %>">
                                                     Delete
                                                 </button>
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="<%= student._id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
