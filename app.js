@@ -2,9 +2,7 @@ var express                 = require("express"),
     app                     = express(),
     bodyParser              = require("body-parser"),
     mongoose                = require("mongoose"),
-    // Campground              = require("./models/campground"),
     seedDB                  = require("./seeds"),
-    // Comment                 = require("./models/comment"),
     methodOverride          = require("method-override"),
     flash                   = require("connect-flash"),
     path                    = require("path")
@@ -18,8 +16,6 @@ var
     indexRoutes             = require("./routes/index"),
     manageRoutes            = require("./routes/manage"),
     homeRoutes              = require("./routes/home")
-    // homeRoutes              = require("./routes/home"),
-    // commentRoutes           = require("./routes/comments");
 
 mongoose.connect("mongodb://localhost:27017/anxin", { useNewUrlParser: true });
 // mongoose.connect("mongodb://huanshen:wilson123@ds051833.mlab.com:51833/yelpcamp", { useNewUrlParser: true });
@@ -57,7 +53,7 @@ app.use("/home", homeRoutes);
 // app.use("/campgrounds/:id/comments", commentRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
-   console.log("The YelpCamp Server Has Started.");
+   console.log("Server Has Started.");
 });
 
-seedDB(); //seed the database
+// seedDB(); //seed the database

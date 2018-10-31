@@ -353,17 +353,21 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <h2 class="section-heading text-uppercase">Contact Us</h2>
-            <h3 class="section-heading ">Tele: (213)-456-6513</h3>
+            <div class="col-sm-12">
+              <h3 class="section-text" style="color: white; text-align:left; padding-left:10%">Phone : (213)-456-6513</h3>
+              <h3 class="section-text" style="color: white; text-align:left; padding-left:10%">Email : Inshine@gmail.com</h3>
+              <h3 class="section-text" style="color: white; text-align:left; padding-left:10%">Address: 96 Longkou W Rd, Guangzhou, China, 510630</h3>              
+            </div>
+
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-12">
-
+          <div class="col-sm-12">
+            <div id="map" style="height: 500px; width: 80%; margin:20px auto"></div>               
           </div>
         </div>
       </div>
     </section>
-
 
     <!-- Portfolio Modals -->
 
@@ -571,4 +575,56 @@
       </div>
     </div>    
     
-<% include ../views/partials/homeFooter %>
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <span class="copyright">Copyright &copy; Inshine Education 2018</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/startbootstrap-agency/vendor/jquery/jquery.min.js"></script>
+    <script src="/startbootstrap-agency/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/startbootstrap-agency/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Contact form JavaScript -->
+    <script src="/startbootstrap-agency/js/jqBootstrapValidation.js"></script>
+    <script src="/startbootstrap-agency/js/contact_me.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="/startbootstrap-agency/js/agency.min.js"></script>
+    
+    <!--Map API-->
+    <script>
+      function initMap() {
+        var lat = 23.136833;
+        var lng = 113.337667;
+        var center = {lat: lat, lng: lng };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: center,
+            scrollwheel: false
+        });
+        var contentString = `<strong>Content</strong>`;
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        var marker = new google.maps.Marker({
+            position: center,
+            map: map
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMaUaP6LcbgBO3avkHtOVHOo6t1bh2tYI&callback=initMap"></script>
+  </body>
+
+</html>
