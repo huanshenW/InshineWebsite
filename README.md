@@ -5,6 +5,8 @@ Multiple modules and back-end code are constructed independently for easy data m
 
 Demo link: https://frozen-shore-88880.herokuapp.com/
 
-Management system's demo admin-acount:
+Management system's demo admin-account:
+
 Username: admin
+
 Password: password
